@@ -34,3 +34,30 @@ test("every authored question includes hint and explanation", () => {
   assert.ok(app.questions.every(q => q.hint1 && q.hint2 && q.explanation && q.misconception));
   assert.ok(app.questions.every(q => ["choice", "number", "order", "text"].includes(q.type)));
 });
+
+test("all inline handlers are explicitly registered on window", () => {
+  const handlers = ["goHome", "openSubject", "startUnit", "startDaily", "startWeak", "startMiniMock", "startFullMock", "answer", "answerNumber", "answerText", "answerOrder", "answerOrderDone", "nextQuestion", "retryWrong", "leaveQuiz", "showShizuoka", "showStats", "enlarge", "showHint2"];
+  for (const handler of handlers) {
+    assert.match(html, new RegExp(`window\\.${handler}\\s*=\\s*${handler}\\s*;`), `${handler} is not registered`);
+  }
+});
+
+test("canvas touch interactions lock and restore page scrolling", () => {
+  assert.match(html, /document\.body\.style\.overflow\s*=\s*["']hidden["']/);
+  assert.match(html, /document\.body\.style\.position\s*=\s*["']fixed["']/);
+  assert.match(html, /document\.body\.style\.width\s*=\s*["']100%["']/);
+  assert.match(html, /touchcancel/);
+  assert.match(html, /document\.body\.style\.overflow\s*=\s*["']["']/);
+});
+
+test("all six screens exist and generated data is complete", () => {
+  for (const screen of ["screen-home", "screen-units", "screen-question", "screen-result", "screen-stats", "screen-shizuoka"]) {
+    assert.match(html, new RegExp(`id=["']${screen}["']`));
+  }
+  assert.equal(app.questions.length, 152);
+});
+
+test("all script blocks have valid JavaScript syntax", () => {
+  const scripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/g)].map(match => match[1]);
+  for (const source of scripts) assert.doesNotThrow(() => new Function(source));
+});

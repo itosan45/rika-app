@@ -164,6 +164,46 @@ function leaveQuiz(){stopHintTimer();currentSubject&&currentSubject.id?openSubje
 function showResult(){stopHintTimer();const ok=results.filter(r=>r.ok).length,pct=Math.round(ok/results.length*100);if(currentUnit&&isUnitCleared(ok,results.length)&&!data.cleared.includes(currentUnit.id)){data.cleared.push(currentUnit.id);save()}document.getElementById("result-score").textContent=sessionType==="full"?`${ok*2}/50`:`${pct}%`;document.getElementById("result-message").textContent=pct>=80?"よく理解できています":pct>=60?"あと少しで安定します":"基礎に戻れば伸びます";document.getElementById("result-breakdown").innerHTML=SUBJECTS.map(s=>{const r=results.filter(x=>x.q.subjectId===s.id),c=r.filter(x=>x.ok).length;return`<div class="stat">${s.emoji} ${s.name}<br><b>${r.length?`${c}/${r.length}`:"-"}</b></div>`}).join("");show("result")}
 function retryWrong(){const wrong=results.filter(r=>!r.ok).map(r=>r.q);if(!wrong.length){goHome();return}deck=wrong;currentUnit=null;currentSubject={name:"間違い直し",emoji:"🔁"};beginSession("retry")}
 function showStats(){const rate=data.attempts?Math.round(data.correct/data.attempts*100):0,weak=Object.values(data.weak).filter(v=>v>0).length;document.getElementById("stats-content").innerHTML=`<div class="hero"><div class="score">${rate}%</div><div>累計正答率</div></div><div class="breakdown"><div class="stat"><b>${data.attempts}</b><div class="small">解いた問題</div></div><div class="stat"><b>${weak}</b><div class="small">復習待ち</div></div><div class="stat"><b>${data.cleared.length}</b><div class="small">クリア単元</div></div><div class="stat"><b>${data.streak}</b><div class="small">連続日数</div></div></div>`;show("stats")}
+
+let canvasScrollY=0;
+function lockCanvasScroll(){
+ canvasScrollY=window.scrollY;
+ document.body.style.overflow="hidden";
+ document.body.style.position="fixed";
+ document.body.style.top=`-${canvasScrollY}px`;
+ document.body.style.width="100%";
+}
+function unlockCanvasScroll(){
+ document.body.style.overflow="";
+ document.body.style.position="";
+ document.body.style.top="";
+ document.body.style.width="";
+ window.scrollTo(0,canvasScrollY);
+}
+document.addEventListener("touchstart",event=>{if(event.target.closest?.("canvas"))lockCanvasScroll()},{passive:true});
+document.addEventListener("touchend",event=>{if(event.target.closest?.("canvas"))unlockCanvasScroll()},{passive:true});
+document.addEventListener("touchcancel",event=>{if(event.target.closest?.("canvas"))unlockCanvasScroll()},{passive:true});
+
+window.goHome = goHome;
+window.openSubject = openSubject;
+window.startUnit = startUnit;
+window.startDaily = startDaily;
+window.startWeak = startWeak;
+window.startMiniMock = startMiniMock;
+window.startFullMock = startFullMock;
+window.answer = answer;
+window.answerNumber = answerNumber;
+window.answerText = answerText;
+window.answerOrder = answerOrder;
+window.answerOrderDone = answerOrderDone;
+window.nextQuestion = nextQuestion;
+window.retryWrong = retryWrong;
+window.leaveQuiz = leaveQuiz;
+window.showShizuoka = showShizuoka;
+window.showStats = showStats;
+window.enlarge = enlarge;
+window.showHint2 = showHint2;
+
 renderHome();
 </script>
 </body>
