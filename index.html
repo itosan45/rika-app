@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<meta name="theme-color" content="#071a20">
+<title>理科マスター | 静岡県高校受験</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#06151b;color:#edfdfb;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer}#app{max-width:440px;margin:auto;padding:18px 15px 70px}.screen{display:none}.screen.active{display:block}.top{display:flex;align-items:center;gap:12px;margin-bottom:18px}.back{width:40px;height:40px;border:1px solid #24434c;border-radius:12px;background:#10272f;color:#9fc1c8}.grow{flex:1}.title{font-size:26px;font-weight:900;letter-spacing:-.7px}.sub{color:#7ca0a8;font-size:13px;margin-top:4px}.streak{display:inline-block;margin-top:10px;background:#f59e0b18;border:1px solid #f59e0b55;color:#fbbf24;padding:5px 11px;border-radius:99px;font-weight:800;font-size:12px}.hero,.card{background:#10272f;border:1px solid #173941;border-radius:19px;padding:18px;margin-bottom:12px}.hero{background:linear-gradient(145deg,#12343b,#0d2229)}.progress{height:7px;background:#183840;border-radius:99px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#14b8a6,#22d3ee);transition:width .35s}.section{margin:24px 3px 10px;color:#5f8790;font-size:11px;font-weight:900;letter-spacing:1px}.subject{display:flex;align-items:center;gap:13px;width:100%;text-align:left;color:inherit}.icon{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:24px}.subject h3{margin:0 0 4px;font-size:16px}.subject p{margin:0;color:#6d929a;font-size:12px}.arrow{margin-left:auto;color:#22d3ee;font-size:22px}.btn{width:100%;border:0;border-radius:15px;padding:15px 16px;margin-top:9px;background:linear-gradient(135deg,#0d9488,#0891b2);color:white;font-weight:900}.btn.secondary{background:#10272f;border:1px solid #24434c;color:#a8c6cc}.btn:disabled{opacity:.45}.unit{display:flex;align-items:center;gap:12px;text-align:left;width:100%;color:inherit}.unit-num{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#163840;color:#5eead4;font-weight:900}.unit.done{border-color:#10b98155}.tag{display:inline-block;padding:4px 9px;border-radius:99px;background:#0f766e30;color:#5eead4;font-size:11px;font-weight:900}.qtext{font-size:19px;line-height:1.55;font-weight:850;margin:15px 0}.diagram{background:#f8fafc;color:#0f172a;border-radius:14px;padding:13px;margin:12px 0;text-align:center;overflow:auto}.choices{display:grid;gap:9px}.choice{padding:14px;border:2px solid #24434c;border-radius:13px;background:#0a1e25;color:#e7fbf8;text-align:left;font-weight:700}.choice.correct{border-color:#10b981;background:#064e3b}.choice.wrong{border-color:#ef4444;background:#4c1118}.timer{margin:14px 0}.timer-row{display:flex;justify-content:space-between;color:#6f969e;font-size:12px;margin-bottom:6px}.hint{display:none;background:#2b2110;border:1px solid #f59e0b66;color:#fde68a;border-radius:14px;padding:14px;line-height:1.55;margin:12px 0}.hint.show{display:block}.feedback{display:none;border-radius:15px;padding:15px;line-height:1.6;margin:12px 0}.feedback.show{display:block}.feedback.ok{background:#063d32;border:1px solid #10b98166}.feedback.ng{background:#42151a;border:1px solid #ef444466}.numrow{display:flex;gap:8px}.numrow input{flex:1;min-width:0;background:#071a20;color:white;border:2px solid #24434c;border-radius:13px;padding:14px}.numrow span{padding:14px;background:#15343c;border-radius:13px}.result{text-align:center}.score{font-size:50px;font-weight:950;color:#5eead4}.breakdown{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.stat{background:#0a1f26;border-radius:13px;padding:13px}.small{font-size:12px;color:#72969e}.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.show{display:flex}.modal .box{max-width:420px;width:100%;background:#10272f;border-radius:20px;padding:20px}.danger{color:#fca5a5}.daily{border-color:#22d3ee55;background:linear-gradient(135deg,#12343b,#10272f)}@media(max-width:360px){.qtext{font-size:17px}.title{font-size:23px}}
+</style>
+</head>
+<body>
+<main id="app">
+<section id="screen-home" class="screen active">
+  <div class="title">🔬 理科マスター</div>
+  <div class="sub">浅羽中3年生・静岡県公立高校入試対策</div>
+  <div class="streak" id="streak">🔥 0日連続</div>
+  <div class="hero" style="margin-top:18px">
+    <div style="display:flex;justify-content:space-between;align-items:end"><div><b>全体進捗</b><div class="small" id="overall-text">基礎から積み上げよう</div></div><b id="overall-pct">0%</b></div>
+    <div class="progress" style="margin-top:12px"><div class="fill" id="overall-fill" style="width:0"></div></div>
+  </div>
+  <div class="card daily">
+    <span class="tag">今日の10分</span><h3 style="margin:10px 0 5px">まず5問だけ解こう</h3>
+    <div class="small">基礎と苦手を混ぜて、無理なく続けます。</div>
+    <button class="btn" onclick="startDaily()">今日の学習を始める</button>
+  </div>
+  <div class="section">▸ 分野を選ぶ</div><div id="subject-list"></div>
+  <div class="section">▸ 入試対策</div>
+  <button class="btn secondary" onclick="showShizuoka()">🗻 静岡県入試モード</button>
+  <button class="btn secondary" onclick="startWeak()">🎯 苦手だけ集中特訓</button>
+  <button class="btn secondary" onclick="showStats()">📊 学習記録を見る</button>
+</section>
+
+<section id="screen-units" class="screen">
+  <div class="top"><button class="back" onclick="goHome()">←</button><div><b id="units-title"></b><div class="small" id="units-sub"></div></div></div>
+  <div id="unit-list"></div>
+</section>
+
+<section id="screen-question" class="screen">
+  <div class="top"><button class="back" onclick="leaveQuiz()">←</button><div class="grow progress"><div id="q-progress" class="fill"></div></div><span class="small" id="q-count"></span></div>
+  <div class="card">
+    <div style="display:flex;gap:7px"><span class="tag" id="q-field"></span><span class="tag" id="q-level"></span></div>
+    <div class="qtext" id="q-prompt"></div><div id="q-diagram"></div><div id="answer-area"></div>
+  </div>
+  <div class="timer" id="hint-countdown"><div class="timer-row"><span>自力で考える時間</span><span id="timer-number">30秒</span></div><div class="progress"><div class="fill" id="timer-fill" style="width:100%"></div></div></div>
+  <div class="hint" id="hint-box"><b>💡 30秒ヒント</b><div id="hint-text" style="margin-top:6px"></div><button class="btn secondary" id="hint2-btn" onclick="showHint2()">もう一段ヒント</button><div id="hint2-text"></div></div>
+  <div class="feedback" id="feedback"></div>
+  <button class="btn" id="next-btn" style="display:none" onclick="nextQuestion()">次へ →</button>
+</section>
+
+<section id="screen-result" class="screen"><div class="result hero"><div class="small">今回の結果</div><div class="score" id="result-score"></div><h2 id="result-message"></h2><div class="breakdown" id="result-breakdown"></div></div><button class="btn" onclick="retryWrong()">間違えた問題を復習</button><button class="btn secondary" onclick="goHome()">ホームへ</button></section>
+<section id="screen-stats" class="screen"><div class="top"><button class="back" onclick="goHome()">←</button><b>学習記録</b></div><div id="stats-content"></div></section>
+<section id="screen-shizuoka" class="screen"><div class="top"><button class="back" onclick="goHome()">←</button><div><b>🗻 静岡県入試モード</b><div class="small">50分・50点を意識した実戦練習</div></div></div><div class="hero"><h3>直近入試の重点</h3><p class="small">遺伝、化学式・中和計算、天体、光と凸レンズ、実験考察を重点的に練習します。</p></div><button class="btn" onclick="startMiniMock()">10問ミニ模試</button><button class="btn secondary" onclick="startFullMock()">50点チャレンジ（25問）</button></section>
+</main>
+<div class="modal" id="diagram-modal" onclick="this.classList.remove('show')"><div class="box" id="diagram-large"></div></div>
+
+<script id="learning-engine">
+function createQuestionState(questionId){return{questionId,remainingSeconds:30,hintVisible:false,answered:false,usedHint:false}}
+function tickQuestionState(state){if(state.answered||state.hintVisible)return state;const n=Math.max(0,state.remainingSeconds-1);return{...state,remainingSeconds:n,hintVisible:n===0,usedHint:n===0}}
+function answerQuestionState(state,isCorrect){if(state.answered)return state;return{...state,answered:true,isCorrect}}
+function advanceQuestionState(nextQuestionId){return createQuestionState(nextQuestionId)}
+function nextWeakLevel(current,correct,usedHint){if(correct&&!usedHint)return Math.max(0,current-1);if(correct)return current;return current+1}
+function isUnitCleared(correctCount,totalCount){return totalCount>0&&correctCount/totalCount>=.7}
+</script>
+<script>
+const SUBJECTS=[
+ {id:"biology",name:"生物",emoji:"🌱",color:"#10b981",desc:"体のつくり・遺伝・生態系"},
+ {id:"chemistry",name:"化学",emoji:"⚗️",color:"#22d3ee",desc:"物質・化学変化・イオン"},
+ {id:"earth",name:"地学",emoji:"🌏",color:"#60a5fa",desc:"地層・気象・天体"},
+ {id:"physics",name:"物理",emoji:"⚡",color:"#a78bfa",desc:"光・音・電気・力"}
+];
+const UNIT_DEFS={
+ biology:["細胞と生物","消化・呼吸・循環","刺激と反応","生殖と遺伝","生態系","生物入試演習"],
+ chemistry:["物質と気体","水溶液と溶解度","原子・分子","化学変化と質量","酸・アルカリとイオン","化学入試演習"],
+ earth:["火山・岩石・地層","地震","天気と湿度","前線・台風","地球と宇宙","地学入試演習"],
+ physics:["光とレンズ","音","力・圧力・浮力","電流と回路","運動とエネルギー","物理入試演習"]
+};
+const UNITS=SUBJECTS.flatMap(s=>UNIT_DEFS[s.id].map((name,i)=>({id:`${s.id}-${i+1}`,subjectId:s.id,name,level:i<2?"基礎":i<5?"標準":"入試",count:5})));
+const BASE=[
+["biology",1,"choice","植物の細胞にあり、動物の細胞にはないつくりはどれ？",["核","細胞膜","葉緑体","細胞質"],2,"光合成を行うつくりに注目する。","葉緑体は光合成を行い、植物細胞に見られる。"],
+["biology",1,"choice","顕微鏡で最初に使う対物レンズは？",["低倍率","高倍率","どちらでも同じ","接眼レンズを外す"],0,"広い範囲から観察する。","低倍率は視野が広く明るいため、対象を見つけやすい。"],
+["biology",2,"choice","小腸の柔毛の主な役割は？",["食物を砕く","吸収面積を広げる","血液を作る","酸素を作る"],1,"表面積との関係を考える。","多数の柔毛により表面積が広がり、養分を効率よく吸収できる。"],
+["biology",2,"choice","肺胞が多数ある利点は？",["肺を重くする","表面積を広げる","血液を止める","体温を下げる"],1,"気体交換を行う面積に注目する。","肺胞が多いほど表面積が広くなり、酸素と二酸化炭素を効率よく交換できる。"],
+["biology",3,"order","刺激を受けて手を引っ込める反射の経路を並べよう。",["感覚器官","感覚神経","せきずい","運動神経","筋肉"],0,"信号が入る道と出る道を分ける。","感覚器官→感覚神経→せきずい→運動神経→筋肉の順で伝わる。"],
+["biology",4,"choice","減数分裂で生殖細胞の染色体数はどうなる？",["2倍","半分","変わらない","0本"],1,"受精後にもとの数へ戻る必要がある。","生殖細胞では染色体数が半分になり、受精で元の数に戻る。"],
+["biology",4,"number","優性Aと劣性aをもつAa同士を交配した。aaになる割合は？",25,"%",0.1,"AA、Aa、Aa、aaの4通りを書く。","遺伝子の組合せは4通り中aaが1通りなので25%。"],
+["biology",5,"text","生産者が生態系で重要な理由を「光合成」を使って説明しよう。",["光合成","有機物"],0,"生産者は何をつくり、他の生物へ渡すか。","生産者は光合成によって有機物をつくり、生態系の食物の出発点となる。"],
+["chemistry",1,"choice","二酸化炭素を集めるのに適した方法は？",["上方置換","下方置換","水上置換だけ","集められない"],1,"空気より重く、水に少し溶ける。","二酸化炭素は空気より重いため下方置換で集められる。"],
+["chemistry",1,"choice","エタノールと水の混合物を分ける操作は？",["ろ過","蒸留","再結晶","中和"],1,"沸点の違いを利用する。","蒸留は液体の沸点の違いを利用して混合物を分ける。"],
+["chemistry",2,"number","20℃で水100gに物質が36g溶ける。水50gには最大何g溶ける？",18,"g",0.1,"水の量が半分なら溶ける量も半分。","36×50÷100=18g。"],
+["chemistry",2,"choice","飽和水溶液を冷やして結晶を取り出す操作は？",["蒸留","再結晶","電気分解","中和"],1,"温度による溶解度の差を使う。","温度を下げたときの溶解度の差を利用する操作を再結晶という。"],
+["chemistry",3,"choice","水分子を表す化学式は？",["HO","H2O","H2O2","OH2-"],1,"水素原子2個と酸素原子1個。","水分子は水素原子2個と酸素原子1個からなるためH₂O。"],
+["chemistry",3,"choice","化学変化で原子について正しいものは？",["消える","新しく生まれる","組合せが変わる","種類が変わる"],2,"反応前後で原子の種類と数を比べる。","化学変化では原子の組合せが変わるが、原子自体が消えたり生まれたりしない。"],
+["chemistry",4,"number","銅4.0gを完全に酸化すると酸化銅5.0gになった。結びついた酸素は何g？",1,"g",0.01,"生成物の質量から銅の質量を引く。","5.0-4.0=1.0g。"],
+["chemistry",4,"text","酸化銅から銅を取り出すとき炭素を加える理由を説明しよう。",["酸素","炭素"],0,"炭素は酸化銅の何を奪うか。","炭素が酸化銅から酸素を奪うため、銅を取り出せる。"],
+["chemistry",5,"choice","酸性水溶液に共通して含まれるイオンは？",["OH-","H+","Na+","Cl-"],1,"酸性を示すもとになる陽イオン。","酸性水溶液には水素イオンH⁺が含まれる。"],
+["chemistry",5,"number","同じ濃さの酸10mLを中和するのにアルカリ10mL必要だった。酸25mLには何mL必要？",25,"mL",0.1,"同じ濃さなら体積比は一定。","10:10=25:xよりx=25mL。"],
+["earth",1,"choice","マグマが地下深くでゆっくり冷えてできる岩石は？",["火山岩","深成岩","堆積岩","石灰岩だけ"],1,"冷える場所と速さに注目する。","地下深くでゆっくり冷えると、結晶の大きな深成岩になる。"],
+["earth",1,"choice","地層が堆積した当時の環境を知る手がかりになる化石は？",["示準化石","示相化石","恐竜だけ","鉱物"],1,"年代ではなく環境を示す化石。","示相化石は地層ができた当時の環境を推定する手がかりになる。"],
+["earth",2,"number","P波が6km/sで進む。震源から30km離れた地点に何秒で届く？",5,"秒",0.01,"時間=距離÷速さ。","30÷6=5秒。"],
+["earth",2,"choice","初期微動継続時間が長い地点ほどどう考えられる？",["震源に近い","震源から遠い","必ず震度が小さい","P波がない"],1,"P波とS波の到着時刻の差を考える。","震源から遠いほどP波とS波の到着時刻の差が大きくなる。"],
+["earth",3,"number","気温20℃、飽和水蒸気量17.3g/m³、実際8.65g/m³。湿度は？",50,"%",0.2,"湿度=実際÷飽和×100。","8.65÷17.3×100=50%。"],
+["earth",3,"choice","空気が上昇すると雲ができやすい理由は？",["気温が上がる","気温が下がり水蒸気が凝結する","酸素が消える","気圧が必ず上がる"],1,"上昇した空気の温度変化に注目。","上昇した空気は膨張して冷え、水蒸気が凝結して雲粒になる。"],
+["earth",4,"choice","温暖前線が近づくと見られやすい雲の変化は？",["積乱雲だけ","高い雲から次第に低い雲","雲が全て消える","砂嵐"],1,"広い範囲でゆるやかに上昇する。","温暖前線では巻雲など高い雲から次第に低い層状雲へ変化する。"],
+["earth",4,"text","海水温が高い海上で台風が発達しやすい理由を説明しよう。",["水蒸気","凝結"],0,"海から供給されるものと、雲になる時のエネルギー。","海から多量の水蒸気が供給され、凝結するときに放出される熱が台風のエネルギーになる。"],
+["earth",5,"choice","北極星がほとんど動かないように見える理由は？",["最も明るいから","地軸の延長方向に近いから","太陽だから","地球から最も近いから"],1,"地球の自転軸の向きを考える。","北極星は地軸の延長方向に近いため、日周運動の中心付近に見える。"],
+["earth",5,"choice","金星が真夜中に見えにくい理由は？",["光らないから","太陽に比較的近い方向に見えるから","月に隠れるから","地球より外側だけを回るから"],1,"金星の公転軌道は地球の内側。","内惑星の金星は太陽から大きく離れて見えず、夕方か明け方に見える。"],
+["physics",1,"choice","光が空気中からガラスへ斜めに進むときの曲がり方は？",["法線から離れる","法線に近づく","必ず直進","反射だけする"],1,"光の速さが小さくなる物質へ入る。","空気からガラスへ入る光は法線に近づくように屈折する。"],
+["physics",1,"number","焦点距離10cmの凸レンズで、物体をレンズから30cmに置いた。像はレンズの反対側何cm？",15,"cm",0.2,"1/f=1/a+1/bを使う。","1/10=1/30+1/bより1/b=1/15、b=15cm。"],
+["physics",2,"choice","音の高さを決める量は？",["振幅","振動数","速さだけ","波形の面積"],1,"1秒間に振動する回数。","振動数が大きいほど高い音になる。振幅は主に音の大きさに関係する。"],
+["physics",2,"choice","音を大きくしたとき波形で大きくなるものは？",["周期","振幅","振動数","波の数だけ"],1,"上下方向の幅に注目する。","音の大きさは振幅に対応する。音の高さが同じなら振動数は変わらない。"],
+["physics",3,"number","面積0.02m²の面に200Nの力が加わる。圧力は？",10000,"Pa",1,"圧力=力÷面積。","200÷0.02=10000Pa。"],
+["physics",3,"text","水中の物体にはたらく浮力が上向きになる理由を説明しよう。",["圧力","下"],0,"水圧は深いほどどうなるか。","物体の下面にはたらく水圧が上面より大きいため、差し引き上向きの浮力が生じる。"],
+["physics",4,"number","6Vを加えると0.3A流れる抵抗は何Ω？",20,"Ω",0.01,"抵抗=電圧÷電流。","6÷0.3=20Ω。"],
+["physics",4,"choice","並列回路の各枝に加わる電圧は？",["電源電圧と等しい","半分になる","必ず0V","抵抗に反比例して0になる"],0,"枝分かれした両端は同じ2点につながる。","並列回路では各枝の両端電圧は電源電圧と等しい。"],
+["physics",5,"number","質量2kgの物体を3m持ち上げた。重力を10N/kgとすると仕事は？",60,"J",0.1,"仕事=力×距離。重力は質量×10。","重力20N×3m=60J。"],
+["physics",5,"choice","摩擦のない斜面を下る物体で増えるエネルギーは？",["位置エネルギー","運動エネルギー","化学エネルギーだけ","全エネルギーが消える"],1,"高さが下がると速さはどうなるか。","位置エネルギーが減り、その分運動エネルギーが増える。"]
+];
+function buildQuestions(){
+ let n=0;const out=[];
+ for(const b of BASE)for(let v=0;v<4;v++){n++;const [sid,ui,type,prompt]=b;const hint=type==="number"?b[7]:b[6],explanation=type==="number"?b[8]:b[7];const q={id:`q${n}`,unitId:`${sid}-${ui}`,subjectId:sid,type,level:ui<3?"基礎":ui<6?"標準":"入試",prompt:v?`${prompt}（類題${v+1}）`:prompt,hint1:hint,hint2:`図や条件を整理してから、${type==="number"?"式に数値を入れよう。":"重要語句を1つずつ確かめよう。"}`,explanation,misconception:"用語だけで決めず、問題の条件と原理を結び付けよう。"};
+  if(type==="choice"){q.choices=b[4];q.answer=b[5]}else if(type==="number"){q.answer=b[4];q.unit=b[5];q.tolerance=b[6]}else if(type==="order"){q.items=b[4];q.answer=b[4]}else{q.required=b[4];q.model=explanation}
+  out.push(q);
+ }return out;
+}
+const QUESTIONS=buildQuestions();
+const STORE="rika_master_v1";
+const DEFAULT={cleared:[],weak:{},attempts:0,correct:0,streak:0,lastDate:"",history:[]};
+function loadStore(){try{return{...DEFAULT,...JSON.parse(localStorage.getItem(STORE)||"{}")}}catch{return{...DEFAULT}}}
+let data=loadStore(),currentSubject=null,currentUnit=null,deck=[],qIndex=0,results=[],qState=null,hintTimerId=null,sessionType="unit";
+function save(){localStorage.setItem(STORE,JSON.stringify(data))}
+function show(id){stopHintTimer();document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));document.getElementById(`screen-${id}`).classList.add("active");scrollTo(0,0)}
+function subjectOf(id){return SUBJECTS.find(s=>s.id===id)}
+function updateStreak(){const t=new Date().toDateString(),y=new Date(Date.now()-86400000).toDateString();if(data.lastDate!==t){data.streak=data.lastDate===y?data.streak+1:1;data.lastDate=t;save()}document.getElementById("streak").textContent=`🔥 ${data.streak}日連続`}
+function renderHome(){updateStreak();const p=Math.round(data.cleared.length/UNITS.length*100);document.getElementById("overall-pct").textContent=p+"%";document.getElementById("overall-fill").style.width=p+"%";document.getElementById("overall-text").textContent=`${data.cleared.length}/${UNITS.length}単元クリア`;document.getElementById("subject-list").innerHTML=SUBJECTS.map(s=>`<button class="card subject" onclick="openSubject('${s.id}')"><span class="icon" style="background:${s.color}22">${s.emoji}</span><span><h3>${s.name}</h3><p>${s.desc}</p></span><span class="arrow">›</span></button>`).join("")}
+function goHome(){show("home");renderHome()}
+function openSubject(id){currentSubject=subjectOf(id);document.getElementById("units-title").textContent=`${currentSubject.emoji} ${currentSubject.name}`;document.getElementById("units-sub").textContent=currentSubject.desc;document.getElementById("unit-list").innerHTML=UNITS.filter(u=>u.subjectId===id).map((u,i)=>`<button class="card unit ${data.cleared.includes(u.id)?"done":""}" onclick="startUnit('${u.id}')"><span class="unit-num">${data.cleared.includes(u.id)?"✓":i+1}</span><span class="grow"><b>${u.name}</b><div class="small">${u.level}・5問</div></span><span>›</span></button>`).join("");show("units")}
+function startUnit(id){currentUnit=UNITS.find(u=>u.id===id);currentSubject=subjectOf(currentUnit.subjectId);deck=shuffle(QUESTIONS.filter(q=>q.unitId===id)).slice(0,5);beginSession("unit")}
+function shuffle(a){return[...a].sort(()=>Math.random()-.5)}
+function beginSession(type){sessionType=type;qIndex=0;results=[];show("question");loadQuestion()}
+function startDaily(){const weakIds=Object.entries(data.weak).filter(([,v])=>v>0).map(([id])=>id);const pool=[...QUESTIONS.filter(q=>weakIds.includes(q.id)),...shuffle(QUESTIONS)];deck=[...new Map(pool.map(q=>[q.id,q])).values()].slice(0,5);currentUnit=null;currentSubject={name:"今日の10分",emoji:"⏱"};beginSession("daily")}
+function startWeak(){const pool=QUESTIONS.filter(q=>(data.weak[q.id]||0)>0).sort((a,b)=>(data.weak[b.id]||0)-(data.weak[a.id]||0));if(!pool.length){alert("苦手問題はまだありません。まず今日の学習に挑戦しよう。");return}deck=pool.slice(0,10);currentUnit=null;currentSubject={name:"苦手特訓",emoji:"🎯"};beginSession("weak")}
+function showShizuoka(){show("shizuoka")}
+function startMiniMock(){deck=balanced(10);currentUnit=null;currentSubject={name:"静岡県ミニ模試",emoji:"🗻"};beginSession("mock")}
+function startFullMock(){deck=balanced(25);currentUnit=null;currentSubject={name:"50点チャレンジ",emoji:"📝"};beginSession("full")}
+function balanced(count){const each=Math.floor(count/4),arr=[];SUBJECTS.forEach((s,i)=>arr.push(...shuffle(QUESTIONS.filter(q=>q.subjectId===s.id&&q.level!=="基礎")).slice(0,each+(i<count%4?1:0))));return shuffle(arr)}
+function loadQuestion(){const q=deck[qIndex];qState=createQuestionState(q.id);document.getElementById("q-count").textContent=`${qIndex+1}/${deck.length}`;document.getElementById("q-progress").style.width=`${qIndex/deck.length*100}%`;document.getElementById("q-field").textContent=`${subjectOf(q.subjectId).emoji} ${subjectOf(q.subjectId).name}`;document.getElementById("q-level").textContent=q.level;document.getElementById("q-prompt").textContent=q.prompt;document.getElementById("q-diagram").innerHTML=makeDiagram(q);renderAnswer(q);document.getElementById("hint-box").classList.remove("show");document.getElementById("hint2-text").textContent="";document.getElementById("hint2-btn").style.display="block";document.getElementById("feedback").className="feedback";document.getElementById("next-btn").style.display="none";renderTimer();startHintTimer()}
+function makeDiagram(q){if(q.subjectId==="physics"&&q.prompt.includes("レンズ"))return`<div class="diagram" onclick="enlarge(this.innerHTML)"><svg viewBox="0 0 320 90"><line x1="160" y1="8" x2="160" y2="82" stroke="#0891b2" stroke-width="5"/><line x1="10" y1="45" x2="310" y2="45" stroke="#64748b"/><path d="M50 70V25l-8 12m8-12 8 12" stroke="#ef4444" fill="none" stroke-width="3"/><circle cx="120" cy="45" r="3"/><circle cx="200" cy="45" r="3"/><text x="109" y="62">焦点</text><text x="190" y="62">焦点</text></svg><div class="small">タップで拡大</div></div>`;if(q.subjectId==="earth"&&q.type==="number")return`<div class="diagram"><b>式を選ぶ</b><br>距離 = 速さ × 時間　　湿度 = 実際の水蒸気量 ÷ 飽和水蒸気量 × 100</div>`;return""}
+function enlarge(html){document.getElementById("diagram-large").innerHTML=html;document.getElementById("diagram-modal").classList.add("show")}
+function renderAnswer(q){const a=document.getElementById("answer-area");if(q.type==="choice")a.innerHTML=`<div class="choices">${q.choices.map((c,i)=>`<button class="choice" onclick="answer(${i},this)">${c}</button>`).join("")}</div>`;else if(q.type==="number")a.innerHTML=`<div class="numrow"><input id="number-answer" inputmode="decimal" placeholder="数値を入力"><span>${q.unit}</span></div><button class="btn" onclick="answerNumber()">答える</button>`;else if(q.type==="order")a.innerHTML=`<div class="small">正しい順番を考えよう</div><div class="choices">${q.items.map((x,i)=>`<button class="choice" onclick="answerOrder(${i})">${i+1}. ${x}</button>`).join("")}</div><button class="btn" onclick="answerOrderDone()">この順で答える</button>`;else a.innerHTML=`<textarea id="text-answer" style="width:100%;min-height:100px;background:#071a20;color:white;border:2px solid #24434c;border-radius:13px;padding:12px" placeholder="理由を書こう"></textarea><button class="btn" onclick="answerText()">答える</button>`}
+function startHintTimer(){stopHintTimer();const seconds=window.__HINT_SECONDS__??30;qState={...qState,remainingSeconds:seconds};hintTimerId=setInterval(()=>{qState=tickQuestionState(qState);renderTimer();if(qState.hintVisible){showHint();stopHintTimer()}},1000)}
+function stopHintTimer(){if(hintTimerId){clearInterval(hintTimerId);hintTimerId=null}}
+function renderTimer(){document.getElementById("timer-number").textContent=`${qState.remainingSeconds}秒`;document.getElementById("timer-fill").style.width=`${qState.remainingSeconds/30*100}%`;document.getElementById("hint-countdown").style.display=qState.answered||qState.hintVisible?"none":"block"}
+function showHint(){qState={...qState,hintVisible:true,usedHint:true};const q=deck[qIndex];document.getElementById("hint-text").textContent=q.hint1;document.getElementById("hint-box").classList.add("show")}
+function showHint2(){qState={...qState,usedHint:true};document.getElementById("hint2-text").textContent=deck[qIndex].hint2;document.getElementById("hint2-btn").style.display="none"}
+function answer(chosen,btn){finishAnswer(chosen===deck[qIndex].answer,btn,deck[qIndex].choices[deck[qIndex].answer])}
+function answerNumber(){const q=deck[qIndex],v=Number(document.getElementById("number-answer").value);finishAnswer(Number.isFinite(v)&&Math.abs(v-q.answer)<=q.tolerance,null,`${q.answer}${q.unit}`)}
+let orderClicks=[];function answerOrder(i){if(!qState.answered&&!orderClicks.includes(i)){orderClicks.push(i);event.currentTarget.style.opacity=".45"}}
+function answerOrderDone(){const q=deck[qIndex],ok=orderClicks.length===q.items.length&&orderClicks.every((x,i)=>x===i);finishAnswer(ok,null,q.items.join(" → "));orderClicks=[]}
+function answerText(){const q=deck[qIndex],t=document.getElementById("text-answer").value,ok=q.required.every(k=>t.includes(k));finishAnswer(ok,null,q.model)}
+function finishAnswer(ok,btn,correctAnswer){if(qState.answered)return;stopHintTimer();qState=answerQuestionState(qState,ok);document.querySelectorAll("#answer-area button,#answer-area input,#answer-area textarea").forEach(x=>x.disabled=true);if(btn)btn.classList.add(ok?"correct":"wrong");const q=deck[qIndex],fb=document.getElementById("feedback");fb.className=`feedback show ${ok?"ok":"ng"}`;fb.innerHTML=`<b>${ok?"⭕ 正解！":"❌ もう一度覚えよう"}</b>${ok?"":`<div>正解：${correctAnswer}</div>`}<div style="margin-top:7px">${q.explanation}</div><div class="small" style="margin-top:7px">つまずきポイント：${q.misconception}</div>`;results.push({q,ok,usedHint:qState.usedHint});data.attempts++;if(ok)data.correct++;data.weak[q.id]=nextWeakLevel(data.weak[q.id]||0,ok,qState.usedHint);data.history.push({id:q.id,ok,date:Date.now()});data.history=data.history.slice(-300);save();document.getElementById("next-btn").style.display="block";document.getElementById("next-btn").textContent=qIndex===deck.length-1?"結果を見る 📊":"次へ →"}
+function nextQuestion(){if(!qState.answered)return;if(qIndex===deck.length-1){showResult();return}qIndex++;loadQuestion();scrollTo(0,0)}
+function leaveQuiz(){stopHintTimer();currentSubject&&currentSubject.id?openSubject(currentSubject.id):goHome()}
+function showResult(){stopHintTimer();const ok=results.filter(r=>r.ok).length,pct=Math.round(ok/results.length*100);if(currentUnit&&isUnitCleared(ok,results.length)&&!data.cleared.includes(currentUnit.id)){data.cleared.push(currentUnit.id);save()}document.getElementById("result-score").textContent=sessionType==="full"?`${ok*2}/50`:`${pct}%`;document.getElementById("result-message").textContent=pct>=80?"よく理解できています":pct>=60?"あと少しで安定します":"基礎に戻れば伸びます";document.getElementById("result-breakdown").innerHTML=SUBJECTS.map(s=>{const r=results.filter(x=>x.q.subjectId===s.id),c=r.filter(x=>x.ok).length;return`<div class="stat">${s.emoji} ${s.name}<br><b>${r.length?`${c}/${r.length}`:"-"}</b></div>`}).join("");show("result")}
+function retryWrong(){const wrong=results.filter(r=>!r.ok).map(r=>r.q);if(!wrong.length){goHome();return}deck=wrong;currentUnit=null;currentSubject={name:"間違い直し",emoji:"🔁"};beginSession("retry")}
+function showStats(){const rate=data.attempts?Math.round(data.correct/data.attempts*100):0,weak=Object.values(data.weak).filter(v=>v>0).length;document.getElementById("stats-content").innerHTML=`<div class="hero"><div class="score">${rate}%</div><div>累計正答率</div></div><div class="breakdown"><div class="stat"><b>${data.attempts}</b><div class="small">解いた問題</div></div><div class="stat"><b>${weak}</b><div class="small">復習待ち</div></div><div class="stat"><b>${data.cleared.length}</b><div class="small">クリア単元</div></div><div class="stat"><b>${data.streak}</b><div class="small">連続日数</div></div></div>`;show("stats")}
+renderHome();
+</script>
+</body>
+</html>
